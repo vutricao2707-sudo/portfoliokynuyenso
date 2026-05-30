@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio – Vũ Trí Cao | Kỷ Nguyên Số</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #1a6b2f;
+      --green-mid: #2d8a47;
+      --green-light: #e6f5eb;
+      --green-dark: #0d3d1c;
+      --navy: #0d1b2a;
+      --navy-mid: #1c3450;
+      --navy-light: #e8edf3;
+      --white: #ffffff;
+      --offwhite: #f7f8f6;
+      --line-white: rgba(255,255,255,0.12);
+      --text-main: #1a1a1a;
+      --text-muted: #5a6672;
+      --gold: #d4a017;
+      --gold-light: #fdf3d8;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--offwhite);
+      color: var(--text-main);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky; top:0; z-index:200;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3rem; height: 56px;
+      border-bottom: 3px solid var(--green);
+    }
+    .nav-brand {
+      font-family: 'Oswald'; font-size: 1.1rem; font-weight: 600;
+      color: var(--white); letter-spacing: 1.5px; text-transform: uppercase;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav-ball { width:24px; height:24px; background: var(--white); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; }
+    .nav-links { display:flex; gap:0; }
+    .nav-links a {
+      font-family: 'Oswald'; font-size:.85rem; font-weight:500; letter-spacing:1px;
+      text-transform: uppercase; color: rgba(255,255,255,0.65);
+      text-decoration: none; padding: 0 1.2rem; height:56px;
+      display:flex; align-items:center;
+      border-bottom: 3px solid transparent; margin-bottom:-3px;
+      transition: all .2s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--white); border-bottom-color: var(--green-mid);
+    }
+
+    /* ─── PAGE SECTIONS ─── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ─── HERO (Trang Chủ) ─── */
+    .hero {
+      position: relative; overflow: hidden;
+      min-height: 480px;
+      background: var(--navy-mid);
+      display: flex; align-items: center;
+    }
+    .hero-pitch {
+      position: absolute; inset:0;
+      background:
+              linear-gradient(180deg, rgba(13,59,28,0.0) 0%, rgba(13,59,28,0.55) 100%),
+              repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 64px),
+              repeating-linear-gradient(90deg, rgba(255,255,255,0.015) 0, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 64px),
+              linear-gradient(160deg, #0d3d1c 0%, #1a6b2f 40%, #0d1b2a 100%);
+    }
+    .hero-markings {
+      position: absolute; inset:0; pointer-events:none;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='480'%3E%3Ccircle cx='450' cy='240' r='100' fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='1.5'/%3E%3Cline x1='450' y1='0' x2='450' y2='480' stroke='rgba(255,255,255,0.05)' stroke-width='1.5'/%3E%3Crect x='330' y='150' width='240' height='180' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='1.5'/%3E%3Crect x='380' y='180' width='140' height='100' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='1'/%3E%3C/svg%3E") center/cover;
+    }
+    .hero-content {
+      position: relative; z-index:2;
+      width:100%; max-width:1100px; margin:0 auto;
+      padding: 4rem 3rem;
+      display: flex; align-items: center; gap: 4rem;
+    }
+    .hero-badge {
+      font-family: 'Oswald'; font-size:.7rem; letter-spacing:3px; text-transform:uppercase;
+      color: var(--green-mid); border: 1px solid var(--green-mid);
+      padding: 4px 14px; display: inline-block; margin-bottom: 1rem;
+    }
+    .hero-title {
+      font-family: 'Oswald'; font-size: clamp(2rem,4vw,3.2rem);
+      font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--white); line-height: 1.1;
+    }
+    .hero-title em { color: var(--green-mid); font-style:normal; }
+    .hero-sub { font-size:.9rem; color: rgba(255,255,255,0.55); margin-top:.5rem; letter-spacing:.5px; }
+    .hero-divider { width:48px; height:3px; background: var(--green-mid); margin: 1.2rem 0; }
+    .hero-desc { max-width: 480px; color: rgba(255,255,255,0.78); font-size:.9rem; line-height:1.7; }
+    .hero-photo {
+      flex-shrink: 0;
+      width: 200px; height: 260px;
+      border: 2px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+      display: flex; flex-direction:column; align-items:center; justify-content:center; gap:.6rem;
+    }
+    .hero-photo-icon { font-size: 3rem; opacity:.2; }
+    .hero-photo p { font-family:'Oswald'; font-size:.65rem; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.3); text-align:center; }
+    .hero-shirt {
+      position: absolute; right: 3rem; bottom: 0;
+      font-family: 'Oswald'; font-size: clamp(8rem,16vw,13rem);
+      font-weight:700; color: rgba(255,255,255,0.03);
+      line-height:1; pointer-events:none; user-select:none;
+    }
+
+    /* ─── PROFILE CARD ─── */
+    .section { padding: 3.5rem 3rem; max-width:1100px; margin:0 auto; }
+    .section-label {
+      font-family:'Oswald'; font-size:.72rem; font-weight:600; letter-spacing:3px; text-transform:uppercase;
+      color: var(--green); margin-bottom:.5rem;
+    }
+    .section-title {
+      font-family:'Oswald'; font-size: 1.7rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+      color: var(--navy); border-left:4px solid var(--green); padding-left:.8rem; line-height:1.1;
+      margin-bottom: 2rem;
+    }
+    .divider { height:1px; background: linear-gradient(90deg, var(--green), transparent); margin: 3rem 0; }
+
+    .profile-grid { display: grid; grid-template-columns: 280px 1fr; gap: 3rem; align-items: start; }
+    .photo-frame {
+      aspect-ratio: 3/4;
+      border: 2px solid var(--green);
+      background: var(--green-light);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:.8rem; position:relative;
+    }
+    .photo-frame::before {
+      content:''; position:absolute; top:8px; left:8px; right:-8px; bottom:-8px;
+      border: 2px solid var(--green); opacity:.15; pointer-events:none;
+    }
+    .photo-icon { font-size:4rem; opacity:.2; }
+    .photo-hint { font-family:'Oswald'; font-size:.65rem; letter-spacing:2px; text-transform:uppercase; color:var(--green); text-align:center; opacity:.6; padding:0 1rem; }
+    .profile-info { display:flex; flex-direction:column; gap:1.2rem; }
+    .info-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .info-block {}
+    .info-block label {
+      display:block; font-family:'Oswald'; font-size:.65rem; font-weight:600; letter-spacing:2px; text-transform:uppercase;
+      color: var(--green); margin-bottom:.3rem;
+    }
+    .info-value {
+      background: var(--white); border:1.5px solid #e0e0e0; border-radius:4px;
+      padding: .6rem .9rem; font-size:.9rem; color: var(--text-main); width:100%;
+      font-family:'Roboto';
+    }
+    .info-value.filled { color: var(--text-main); font-weight:500; border-color: var(--green); }
+    .fill-ta {
+      background: var(--white); border:1.5px dashed #c8e6cc; border-radius:4px;
+      padding:.7rem .9rem; font-size:.88rem; color: var(--text-muted); font-style:italic;
+      width:100%; resize:vertical; min-height:72px; font-family:'Roboto';
+      transition: border-color .2s;
+    }
+    .fill-ta:focus { outline:none; border-color: var(--green); border-style:solid; color:var(--text-main); font-style:normal; }
+
+    /* ─── GOALS ─── */
+    .goals-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:1.2rem; }
+    .goal-card {
+      background: var(--white); border:1px solid #e0e0e0; border-radius:6px;
+      padding:1.4rem; border-top:3px solid var(--green);
+    }
+    .goal-card.navy { border-top-color: var(--navy); }
+    .goal-card.gold  { border-top-color: var(--gold); }
+    .goal-icon { font-size:1.5rem; margin-bottom:.6rem; }
+    .goal-card h3 {
+      font-family:'Oswald'; font-size:.8rem; font-weight:600; letter-spacing:1.5px; text-transform:uppercase;
+      color: var(--green); margin-bottom:.8rem;
+    }
+    .goal-card.navy h3 { color: var(--navy); }
+    .goal-card.gold h3 { color: #a07c10; }
+
+    /* ─── ROUND CARDS ─── */
+    .rounds-grid { display:flex; flex-direction:column; gap:1.8rem; }
+    .round-card { background: var(--white); border:1px solid #e4e4e4; border-radius:8px; overflow:hidden; }
+    .round-header {
+      background: linear-gradient(90deg, var(--navy) 0%, var(--navy-mid) 100%);
+      padding: 1rem 1.5rem; display:flex; align-items:center; gap:1rem;
+    }
+    .round-num {
+      font-family:'Oswald'; font-size:2.4rem; font-weight:700; color:rgba(255,255,255,0.12);
+      line-height:1; min-width:52px; letter-spacing:-1px;
+    }
+    .round-info h3 {
+      font-family:'Oswald'; font-size:1rem; font-weight:600; text-transform:uppercase; letter-spacing:1px;
+      color: var(--white);
+    }
+    .round-info p { font-size:.75rem; color:rgba(255,255,255,0.45); margin-top:2px; font-style:italic; }
+    .round-body { padding:1.5rem; display:flex; flex-direction:column; gap:1rem; }
+    .round-cols { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .fill-label {
+      display:block; font-family:'Oswald'; font-size:.62rem; font-weight:600; letter-spacing:2px; text-transform:uppercase;
+      color: var(--green); margin-bottom:.35rem;
+    }
+    .fill-input {
+      background: var(--white); border:1.5px dashed #c8e6cc; border-radius:4px;
+      padding:.6rem .9rem; font-size:.88rem; color: var(--text-muted); font-style:italic;
+      width:100%; font-family:'Roboto'; transition: border-color .2s;
+    }
+    .fill-input:focus { outline:none; border-color:var(--green); border-style:solid; color:var(--text-main); font-style:normal; }
+    .fill-ta-sm {
+      background: var(--white); border:1.5px dashed #c8e6cc; border-radius:4px;
+      padding:.6rem .9rem; font-size:.88rem; color:var(--text-muted); font-style:italic;
+      width:100%; resize:vertical; min-height:80px; font-family:'Roboto';
+      transition: border-color .2s;
+    }
+    .fill-ta-sm:focus { outline:none; border-color:var(--green); border-style:solid; color:var(--text-main); font-style:normal; }
+    .screenshot-zone {
+      background: #f5fbf6; border:1.5px dashed #b2dfb2; border-radius:4px;
+      min-height:130px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:.4rem; color:#7baa7b; font-size:.78rem; font-style:italic; text-align:center; padding:.8rem;
+      cursor:pointer;
+    }
+    .screenshot-icon { font-size:1.6rem; opacity:.5; }
+    .tags { display:flex; flex-wrap:wrap; gap:.4rem; }
+    .tag {
+      font-family:'Oswald'; font-size:.65rem; font-weight:500; letter-spacing:1px; text-transform:uppercase;
+      padding:3px 10px; border:1px solid var(--green); color:var(--green); border-radius:3px;
+    }
+    .concept-box {
+      background: var(--navy); color: rgba(255,255,255,0.75);
+      border-radius:5px; padding:.8rem 1rem; font-size:.82rem; font-style:italic; line-height:1.6;
+      border-left:3px solid var(--green-mid);
+    }
+    .concept-box strong { color: var(--white); font-style:normal; }
+    .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .compare-side { border:1.5px solid #e0e0e0; border-radius:5px; overflow:hidden; }
+    .compare-side-header {
+      padding:.5rem 1rem; font-family:'Oswald'; font-size:.7rem; font-weight:600; letter-spacing:1.5px; text-transform:uppercase;
+    }
+    .before .compare-side-header { background:#fce8e8; color:#c0392b; }
+    .after  .compare-side-header { background:#e8f5e9; color:#1a6b2f; }
+    .compare-side-body { padding:.8rem 1rem; }
+
+    /* ─── CONCLUSION ─── */
+    .conclude-grid { display:grid; grid-template-columns:2fr 1fr; gap:3rem; align-items:start; }
+    .sidebar-card { background:var(--white); border:1px solid #e0e0e0; border-radius:8px; padding:1.4rem; }
+    .sidebar-card h3 {
+      font-family:'Oswald'; font-size:.8rem; font-weight:600; letter-spacing:1.5px; text-transform:uppercase;
+      color:var(--navy); margin-bottom:1rem; padding-bottom:.5rem; border-bottom:2px solid var(--green);
+    }
+    .skills-wrap { display:flex; flex-wrap:wrap; gap:.4rem; margin-bottom:.8rem; }
+    .skill-tag {
+      background: var(--green-light); color:var(--green); border:1px solid #b2dfb2;
+      font-family:'Oswald'; font-size:.63rem; font-weight:600; letter-spacing:1px; text-transform:uppercase;
+      padding:4px 10px; border-radius:3px;
+    }
+    .checklist { display:flex; flex-direction:column; gap:.5rem; margin-top:.5rem; }
+    .check-item { display:flex; align-items:flex-start; gap:.5rem; font-size:.82rem; color:var(--text-muted); }
+    .check-item::before { content:'✓'; color:var(--green); font-weight:700; flex-shrink:0; margin-top:1px; }
+    .score-display {
+      background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+      border-radius:6px; padding:1.2rem; text-align:center; margin-bottom:1rem;
+    }
+    .score-num { font-family:'Oswald'; font-size:2.8rem; font-weight:700; color:var(--white); line-height:1; }
+    .score-label { font-family:'Oswald'; font-size:.65rem; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-top:.2rem; }
+    .url-box {
+      background:var(--navy-light); border:1.5px dashed #b0c4d8; border-radius:4px;
+      padding:.6rem .9rem; font-size:.82rem; color:var(--text-muted); font-style:italic; width:100%; font-family:'Roboto';
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--navy); border-top:3px solid var(--green);
+      text-align:center; padding:1.5rem;
+      font-family:'Oswald'; font-size:.72rem; letter-spacing:2px; text-transform:uppercase;
+      color:rgba(255,255,255,0.3);
+    }
+    footer span { color:var(--green-mid); }
+
+    /* ─── RESPONSIVE ─── */
+    @media(max-width:780px){
+      .profile-grid, .conclude-grid { grid-template-columns:1fr; }
+      .goals-grid { grid-template-columns:1fr; }
+      .round-cols, .compare-grid { grid-template-columns:1fr; }
+      .hero-content { flex-direction:column; gap:2rem; padding:3rem 1.5rem; }
+      .hero-photo { width:160px; height:210px; }
+      .section { padding:2.5rem 1.5rem; }
+      nav { padding:0 1.5rem; }
+      .nav-links a { padding:0 .7rem; font-size:.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-ball">⚽</div>
+    Vũ Trí Cao Portfolio
+  </div>
+  <div class="nav-links">
+    <a href="#" class="active" onclick="showPage('home',this)">Sân Nhà</a>
+    <a href="#" onclick="showPage('matches',this)">Các Trận Đấu</a>
+    <a href="#" onclick="showPage('pressroom',this)">Phòng Họp Báo</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════
+     PAGE 1 – SÂN NHÀ
+══════════════════════════════ -->
+<div id="page-home" class="page active">
+
+
+  <!-- HERO BANNER -->
+  <div class="hero" style="background: linear-gradient(rgba(13, 27, 42, 0.6), rgba(13, 27, 42, 0.8)), url('backgo,png.jpg') center/cover no-repeat;">
+    <div class="hero-shirt">10</div>
+    <div class="hero-content">
+      <div style="flex:1;">
+        <div class="hero-badge">Portfolio Kỹ Thuật Số · 2025–2026</div>
+        <h1 class="hero-title">Hồ Sơ Tân Binh:<br><em>Kỷ Nguyên Số</em></h1>
+        <div class="hero-sub">Nhập môn Công nghệ số & Ứng dụng Trí tuệ nhân tạo</div>
+        <div class="hero-divider"></div>
+        <p class="hero-desc">
+          Mục tiêu của tôi trong mùa giải này là hoàn thiện "kỹ năng dứt điểm" với các ngôn ngữ lập trình như Java và nâng cao "thể lực ngoại ngữ" qua việc rèn luyện IELTS. Portfolio này chính là băng hình ghi lại những pha highlight trong quá trình rèn luyện kỹ năng số.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE CARD -->
+<div class="section">
+  <div class="section-label">Trang Chủ · Layout 1</div>
+  <h2 class="section-title">Hồ Sơ Cầu Thủ</h2>
+
+  <div class="profile-grid">
+    <div class="photo-frame" style="padding: 0; overflow: hidden;">
+      <img src="avatar.png.png" alt="Vũ Trí Cao" style="width: 100%; height: 100%; object-fit: cover; position: relative; z-index: 1;">
+    </div>
+    <div class="profile-info">
+      <div class="info-row">
+        <div class="info-block">
+          <label>Họ và tên</label>
+          <div class="info-value filled">Vũ Trí Cao</div>
+        </div>
+        <div class="info-block">
+          <label>Số áo (Mã SV)</label>
+          <div class="info-value filled" style="font-family:'Oswald';letter-spacing:1px;">25020045</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-block">
+          <label>Câu lạc bộ</label>
+          <div class="info-value filled">Đại học Công nghệ (UET)</div>
+        </div>
+        <div class="info-block">
+          <label>Vị trí thi đấu</label>
+          <div class="info-value filled">Kỹ sư phần mềm tương lai</div>
+        </div>
+      </div>
+      <!-- BẮT ĐẦU TỪ ĐÂY -->
+      <div class="info-row">
+        <div class="info-block">
+          <label>Lớp / Khoá</label>
+          <div class="info-value filled">K70I-IT2</div>
+        </div>
+        <div class="info-block">
+          <label>Ngành học</label>
+          <div class="info-value filled">Công nghệ Thông tin</div>
+        </div>
+      </div>
+      <div class="info-block">
+        <label>Sở thích & đam mê cá nhân</label>
+        <div class="info-value filled" style="line-height: 1.6;">Đam mê lớn nhất của mình là kiến tạo các hệ thống phần mềm bằng Java (đặc biệt là OOP, JavaFX) với nhãn quan sắc bén như cách Messi tung ra những đường chuyền quyết định. Ngoài ra, mình thích rèn luyện "thể lực ngoại ngữ" qua việc chinh phục IELTS và dành thời gian cháy hết mình với bóng đá.</div>
+      </div>
+      <div class="info-block">
+        <label>Câu nói yêu thích (về bóng đá / công nghệ)</label>
+        <div class="info-value filled" style="font-style: italic; font-weight: 500; color: var(--green-dark);">"Thiên tài chỉ chiếm 1% nhưng nỗ lực sẽ là 99% còn lại." – Lionel Messi</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- GOALS -->
+  <div class="section-label">Trang Chủ · Layout 2</div>
+  <h2 class="section-title">Mục Tiêu Chuyển Nhượng</h2>
+  <div class="goals-grid">
+    <div class="goal-card">
+      <div class="goal-icon">🎯</div>
+      <h3>Mục tiêu học tập</h3>
+      <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6; min-height: 120px;">Rèn luyện tư duy lập trình Java (OOP, Generics) khéo léo và "dính chân" như cách Messi lướt qua hàng phòng ngự. Đóng góp 99% nỗ lực mỗi ngày để đạt điểm cao IELTS, đồng thời giữ phong độ ổn định ở cả 4 môn trên trường và các lớp ngoại ngữ buổi tối.</div>
+    </div>
+    <div class="goal-card navy">
+      <div class="goal-icon">📈</div>
+      <h3>Định hướng phát triển</h3>
+      <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6; min-height: 120px;">Trở thành một "số 10" dẫn dắt lối chơi trong giới kỹ sư phần mềm, làm chủ các dự án thực tế như hệ thống đấu giá trực tuyến. Mục tiêu gần là cùng đồng đội nâng cúp tại giải FIT CUP 2026 và giành được những "bản hợp đồng" đỉnh cao tại các hội chợ việc làm.</div>
+    </div>
+    <div class="goal-card gold">
+      <div class="goal-icon">🏆</div>
+      <h3>Mục tiêu Portfolio này</h3>
+      <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6; min-height: 120px;">Giống như hành trình chinh phục những Quả Bóng Vàng, đây không chỉ là kho lưu trữ bài tập mà là minh chứng cho tư duy hệ thống và nỗ lực bền bỉ. Portfolio này chính là cuốn băng highlight xuất sắc nhất để chinh phục mọi nhà tuyển dụng khó tính.</div>
+    </div>
+  </div>
+  <!-- KẾT THÚC Ở ĐÂY -->
+
+  <!-- ══════════════════════════════
+       PAGE 2 – CÁC TRẬN ĐẤU
+  ══════════════════════════════ -->
+  <div id="page-matches" class="page">
+    <div class="section">
+      <div class="section-label">Trang Dự Án</div>
+      <h2 class="section-title">Các Trận Đấu Bản Lề</h2>
+
+      <div class="rounds-grid">
+
+        <!-- VÒNG 1 -->
+        <div class="round-card">
+          <div class="round-header">
+            <div class="round-num">01</div>
+            <div class="round-info">
+              <h3>⚽ Chiến Thuật Đội Hình</h3>
+              <p>Bài tập 1 · Mục 1.4 – Quản lý Tệp Tin & Thư Mục</p>
+            </div>
+          </div>
+          <div class="round-body">
+            <div class="concept-box">
+              <strong>Concept:</strong> Tổ chức thư mục máy tính như việc sắp xếp đội hình <strong>4-3-3</strong> — mỗi thư mục là một vị trí, mỗi tệp là một cầu thủ với vai trò rõ ràng.
+            </div>
+            <div class="round-cols">
+              <div>
+                <label class="fill-label">Quy tắc đặt tên tệp đã thiết lập</label>
+                <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6; min-height: 70px;">
+                  Tuân thủ kỷ luật chiến thuật nghiêm ngặt: Tên thư mục sử dụng dấu gạch dưới thay khoảng trắng (VD: ThucHanh_Vũ Trí Cao)[cite: 2]. Đối với các tệp tin, áp dụng phong cách PascalCase (VD: GhiChuQuanTrong.txt, DiChuyen.txt)[cite: 2] để tạo thói quen tốt, đồng bộ tuyệt đối với quy tắc đặt tên Class trong lập trình Java sau này.
+                </div>
+              </div>
+              <div>
+                <label class="fill-label">Cấu trúc thư mục tối ưu</label>
+                <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6; min-height: 70px;">
+                  Triển khai "đội hình" phân tầng logic từ ổ đĩa dữ liệu: Ổ D -> Documents -> ThucHanh_Vũ Trí Cao -> TaiLieu[cite: 2]. Việc phân cấp rạch ròi ngay từ đầu giúp "kiểm soát bóng" (dữ liệu) cực tốt, đảm bảo không bị lỗi đường dẫn khi đồ án mã nguồn mở hoặc kho tài liệu IELTS ngày càng phình to.
+                </div>
+              </div>
+            </div>
+            <div class="round-cols">
+              <div>
+                <label class="fill-label">Ảnh chụp cây thư mục học tập</label>
+                <div class="screenshot-zone" style="padding: 0; overflow: hidden; border: 2px solid #b2dfb2;">
+                  <img src="t12.1.png.png" alt="Cấu trúc thư mục" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+              <div>
+                <label class="fill-label">Ảnh chụp minh hoạ quy tắc đặt tên</label>
+                <div class="screenshot-zone" style="padding: 0; overflow: hidden; border: 2px solid #b2dfb2;">
+                  <img src="t12.2.png.png" alt="Quy tắc đặt tên" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+            </div>
+            <div>
+              <label class="fill-label">Nhận xét & rút kinh nghiệm</label>
+              <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6;">
+                Các kỹ năng thao tác cơ bản như Copy, Cut (Ctrl+X), khôi phục (Restore) từ Recycle Bin hay xóa vĩnh viễn (Shift + Delete)[cite: 2] chính là 99% nỗ lực nền tảng để bảo vệ dữ liệu. Một ổ cứng lộn xộn cũng giống như tuyến giữa đánh mất thế trận. Bài tập này nhắc nhở mình phải luôn tỉ mỉ, định vị file chính xác tuyệt đối như một đường chọc khe dọn cỗ của Messi.
+              </div>
+            </div>
+            <div>
+              <label class="fill-label">Công cụ / kỹ năng</label>
+              <div class="tags">
+                <span class="tag">Windows Explorer</span>
+                <span class="tag">Quy tắc đặt tên</span>
+                <span class="tag">Tổ chức dữ liệu</span>
+                <span class="tag">Phím tắt (Shortcuts)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="round-card">
+          <div class="round-header">
+            <div class="round-num">02</div>
+            <div class="round-info">
+              <h3>🔍 Phân Tích Đối Thủ</h3>
+              <p>Bài tập 2 · Mục 2.4 – Tìm Kiếm & Đánh Giá Thông Tin</p>
+            </div>
+          </div>
+          <div class="round-body">
+            <div class="concept-box">
+              <strong>Concept:</strong> Sử dụng toán tử tìm kiếm nâng cao như các <strong>chuyên gia phân tích (scout)</strong> dùng băng hình để tìm điểm yếu của đối thủ — chính xác, có hệ thống, và không bỏ sót bất kỳ nguồn thông tin quan trọng nào.
+            </div>
+            <div class="round-cols">
+              <div>
+                <label class="fill-label">Chủ đề tìm kiếm (liên quan chuyên ngành)</label>
+                <div class="info-value filled" style="font-size: 0.88rem;">Tối ưu hóa bộ nhớ và hiệu năng JVM/Garbage Collection khi xử lý Big Data bằng Java.</div>
+              </div>
+              <div>
+                <label class="fill-label">Toán tử nâng cao đã sử dụng (4 toán tử)</label>
+                <div class="info-value filled" style="font-size: 0.88rem; font-family: monospace;">("Big Data" OR "Data Analytics") AND "Java" AND "Garbage Collection"</div>
+              </div>
+            </div>
+            <div class="round-cols">
+              <div>
+                <label class="fill-label">Ảnh chụp truy vấn phức tạp</label>
+                <div class="screenshot-zone" style="padding: 0; overflow: hidden; border: 2px solid #b2dfb2;">
+                  <img src="bang.png.png" alt="Truy vấn nâng cao" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+              <div>
+                <label class="fill-label">Bảng đánh giá độ tin cậy nguồn tài liệu</label>
+                <div class="screenshot-zone" style="padding: 0; overflow: hidden; border: 2px solid #b2dfb2;">
+                  <img src="truyvan.png.png" alt="Bảng đánh giá tài liệu" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+            </div>
+            <div>
+              <label class="fill-label">Phân tích sâu — chiến lược tìm kiếm & đánh giá nguồn</label>
+              <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6;">
+                Thay vì "đá bóng hú họa" bằng các từ khóa chung chung, mình dùng toán tử Boolean (AND, OR) kết hợp ngoặc kép (" ") trên IEEE Xplore và Google Scholar. Bảng đánh giá được xây dựng cực kỳ khắt khe: chỉ chọn tài liệu xuất bản 5 năm gần đây (2021-2026), đối chiếu chéo (cross-check) các báo cáo khoa học với tài liệu gốc (Official Docs) từ Oracle. Đây là cách mình "đọc vị" lượng kiến thức khổng lồ để lọc ra những bài báo chất lượng nhất.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="round-card">
+          <div class="round-header">
+            <div class="round-num">03</div>
+            <div class="round-info">
+              <h3>📋 Chỉ Đạo Chiến Thuật</h3>
+              <p>Bài tập 2 · Mục 3.4 – Viết Prompt Hiệu Quả</p>
+            </div>
+          </div>
+          <div class="round-body">
+            <div class="concept-box">
+              <strong>Concept:</strong> Bạn là <strong>Huấn luyện viên trưởng</strong>, AI là cầu thủ. Prompt thô sơ = chỉ đạo mập mờ (cầu thủ đá loạn xạ). Prompt kỹ thuật cao = chiến thuật rõ ràng (cầu thủ ghi bàn đúng thời điểm).
+            </div>
+            <div class="compare-grid">
+              <div class="compare-side before">
+                <div class="compare-side-header">Prompt Thô (Chỉ đạo mập mờ)</div>
+                <div class="compare-side-body">
+                  <div class="info-value filled" style="font-size: 0.85rem; font-style: italic; min-height: 60px;">"Giải thích cho tôi về tính đa hình trong lập trình Java."</div>
+                  <div style="margin-top:.7rem;">
+                    <label class="fill-label" style="color:#c0392b;">Kết quả AI trả về</label>
+                    <div class="info-value filled" style="font-size: 0.85rem; min-height: 100px;">AI trả về một đoạn định nghĩa mang tính giáo khoa từ điển, khô khan, dài dòng và khó hiểu đối với sinh viên năm nhất. Chỉ dùng để tra cứu chứ thiếu tính sư phạm.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="compare-side after">
+                <div class="compare-side-header">Prompt Tối Ưu (Chiến thuật rõ ràng)</div>
+                <div class="compare-side-body">
+                  <div class="info-value filled" style="font-size: 0.85rem; font-style: italic; min-height: 60px;">"Role: Bạn là giảng viên CNTT kỳ cựu tại UET. Task: Giải thích 'Tính đa hình' qua phép so sánh đời thực. Chain-of-Thought: Ví dụ thực tế -> Phân biệt Overloading/Overriding -> Viết Code minh họa -> Tóm tắt. Format: Dùng Heading rõ ràng."</div>
+                  <div style="margin-top:.7rem;">
+                    <label class="fill-label">Kết quả AI trả về</label>
+                    <div class="info-value filled" style="font-size: 0.85rem; min-height: 100px;">Kết quả đạt điểm 10. AI đóng vai xuất sắc, lấy ví dụ "ẩn dụ đội làm đồ án 4 người" cực kỳ trực quan. Cung cấp code minh họa rõ ràng chuẩn Clean Code sử dụng Abstract Class và Interface.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label class="fill-label">Phân tích so sánh & cơ chế hoạt động của AI</label>
+              <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6;">
+                Bằng cách áp dụng nguyên tắc 4C (Clear - Concise - Context - Control), kết hợp Role Prompting và Chain-of-Thought, mình đã ép AI đi theo tư duy logic từng bước. Việc này giúp khắc phục hiện tượng AI Hallucination (ảo giác thông tin), ép mô hình ngôn ngữ lớn (LLM) truy xuất đúng vùng không gian kiến thức hẹp và học thuật, thay vì sinh ra các chuỗi từ xác suất ngẫu nhiên.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="round-card">
+          <div class="round-header">
+            <div class="round-num">04</div>
+            <div class="round-info">
+              <h3>🤝 Phối Hợp Tiki-Taka</h3>
+              <p>Bài tập 3 · Mục 4.4 – Quản lý hiện diện & Hợp tác trực tuyến</p>
+            </div>
+          </div>
+          <div class="round-body">
+            <div class="concept-box">
+              <strong>Concept:</strong> Xây dựng hồ sơ trực tuyến và làm việc nhóm trơn tru như một pha <strong>ban bật 1 chạm Tiki-Taka</strong> — luân chuyển code, kết nối chuyên nghiệp mà không bị lỡ nhịp.
+            </div>
+            <div class="round-cols">
+              <div>
+                <label class="fill-label">Công cụ quản lý & Hiện diện</label>
+                <div class="info-value filled" style="font-size: 0.88rem;">GitHub (Quản lý Source Code), LinkedIn (Networking)</div>
+              </div>
+              <div>
+                <label class="fill-label">Định vị chuyên nghiệp</label>
+                <div class="info-value filled" style="font-size: 0.88rem;">Tài khoản sinh viên UET, Profile "All-Star", README.md chuẩn chỉ</div>
+              </div>
+            </div>
+            <div>
+              <label class="fill-label">Câu chuyện triển khai hiện diện số & làm việc nhóm</label>
+              <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6;">
+                Dấu chân kỹ thuật số (Digital Footprint) không chỉ là MXH giải trí. Mình đã quy hoạch lại toàn bộ: xây dựng LinkedIn để kết nối với các Senior/HR, và biến GitHub thành "phòng trưng bày" mã nguồn mở. Đối với các đồ án như "Hệ thống đấu giá biển số xe PlateAuction", việc commit code thường xuyên và tích hợp môi trường làm việc trên GitHub giúp các thành viên nhóm làm việc trơn tru, giải quyết xung đột (conflict) mã nguồn một cách hệ thống.
+              </div>
+            </div>
+            <div class="round-cols">
+              <div>
+                <label class="fill-label">Ảnh chụp GitHub (Dự án PlateAuction)</label>
+                <div class="screenshot-zone" style="padding: 0; overflow: hidden; border: 2px solid #b2dfb2;">
+                  <img src="linked.png.png" alt="GitHub PlateAuction" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+              <div>
+                <label class="fill-label">Ảnh chụp LinkedIn Networking</label>
+                <div class="screenshot-zone" style="padding: 0; overflow: hidden; border: 2px solid #b2dfb2;">
+                  <img src="github.png.png" alt="LinkedIn Networking" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+            </div>
+            <div>
+              <label class="fill-label">Mô tả chi tiết cách tối ưu hoá quy trình</label>
+              <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6;">
+                Nguyên tắc "Show and Tell": Code xong phải biết cách mô tả nó qua file README.md (Công nghệ gì, Cài đặt thế nào, Minh họa ra sao). Tận dụng tối đa email sinh viên (@vnu.edu.vn) để tối ưu công cụ chuyên nghiệp, đồng thời thực hiện "Networking có tâm" – luôn đính kèm tin nhắn cá nhân hóa khi kết nối để xây dựng mạng lưới quan hệ chất lượng.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VÒNG 5 -->
+        <div class="round-card">
+          <div class="round-header">
+            <div class="round-num">05</div>
+            <div class="round-info">
+              <h3>🌟 Bàn Thắng Siêu Phẩm</h3>
+              <p>Bài tập 2 · Mục 5.4 – Sáng Tạo Nội Dung với AI</p>
+            </div>
+          </div>
+          <div class="round-body">
+            <div class="concept-box">
+              <strong>Concept:</strong> Sản phẩm số hoàn chỉnh mang đậm <strong>dấu ấn cá nhân</strong> và sự bùng nổ — như một bàn thắng siêu phẩm từ cú sút xa ngoài vòng cấm địa, không ai ngờ tới.
+            </div>
+            <div class="round-cols">
+              <div>
+                <label class="fill-label">Loại sản phẩm số đã tạo</label>
+                <div class="info-value filled" style="font-size: 0.88rem;">Slide thuyết trình: "Đạo đức trong ứng dụng AI"</div>
+              </div>
+              <div>
+                <label class="fill-label">Công cụ AI đã sử dụng</label>
+                <div class="info-value filled" style="font-size: 0.88rem;">Gemini (Văn bản), DALL-E 3 (Hình ảnh), Canva Magic (Layout)</div>
+              </div>
+            </div>
+            <div>
+              <label class="fill-label">Mô tả chi tiết "đường kiến tạo" — quy trình sản xuất từng bước</label>
+              <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6;">
+                Mô hình sản xuất chuyển từ "Làm thủ công A-Z" sang "Định hướng AI -> Tinh chỉnh -> Hoàn thiện"[cite: 6]. Đầu tiên, dùng Gemini để giải quyết hội chứng trang giấy trắng, lên dàn ý 7 slide logic[cite: 6]. Sau đó, ra lệnh cho DALL-E 3 tạo vector minh họa độc quyền (giải quyết triệt để rào cản bản quyền ảnh stock)[cite: 6]. Cuối cùng, đưa tất cả vào Canva Magic Design để tự động hóa bố cục, và bản thân mình chốt chặn bằng việc tinh chỉnh font chữ Arial, xóa text lỗi, và đóng góp >50% khối lượng nội dung cá nhân hóa[cite: 6].
+              </div>
+            </div>
+            <div>
+              <label class="fill-label">Sản phẩm cuối cùng — trưng bày tại đây</label>
+              <div class="screenshot-zone" style="padding: 0; overflow: hidden; border: 2px solid #b2dfb2; height: 300px;">
+                <img src="t5.png.png" alt="Slide thuyết trình hoàn thiện" style="width: 100%; height: 100%; object-fit: contain; background: #e8edf3;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="round-card">
+          <div class="round-header">
+            <div class="round-num">06</div>
+            <div class="round-info">
+              <h3>⚖️ Tinh Thần Fair-Play</h3>
+              <p>Bài tập 4 · Mục 6.4 – Sử Dụng AI Có Trách Nhiệm</p>
+            </div>
+          </div>
+          <div class="round-body">
+            <div class="concept-box">
+              <strong>Concept:</strong> Tuân thủ luật chơi, không dùng <strong>"doping"</strong> (đạo văn), tôn trọng trọng tài và đối thủ. Một cầu thủ thực sự vĩ đại chiến thắng bằng kỹ năng, không bằng gian lận.
+            </div>
+            <div>
+              <label class="fill-label">Bộ nguyên tắc cá nhân (5 điều kim chỉ nam)</label>
+              <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6;">
+                1. <strong>Tư duy độc lập (AI là trợ lý, không làm thay):</strong> Dùng AI gợi mở ý tưởng, debug code, không chép 100%.<br>
+                2. <strong>Zero-Trust (Kiểm chứng chéo):</strong> Coi thông tin AI là bản nháp, phải tự xác minh bằng giáo trình, Docs chính thống.<br>
+                3. <strong>Bảo vệ dữ liệu (Bảo mật):</strong> Không dán mã nguồn hệ thống quan trọng, mật khẩu nội bộ vào hộp thoại AI để tránh rò rỉ.<br>
+                4. <strong>Minh bạch & Chịu trách nhiệm:</strong> Khai báo rõ ràng công cụ AI đã dùng trong phần tài liệu tham khảo báo cáo.<br>
+                5. <strong>Gia sư 1-1 (Học hỏi):</strong> Thay vì bắt AI "Hãy viết code này", yêu cầu AI "Giải thích lỗi và gợi ý cách sửa" để nâng cao kỹ năng lõi.
+              </div>
+            </div>
+            <div class="round-cols">
+              <div>
+                <label class="fill-label">Phân tích vấn đề đạo đức AI trong học thuật</label>
+                <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6; min-height: 130px;">
+                  Vấn nạn lớn nhất là "Xói mòn liêm chính học thuật". Việc sinh viên lạm dụng AI để làm thay đồ án khiến họ đánh mất kỹ năng cốt lõi (problem-solving) và trở thành "kỹ sư giấy". Hơn nữa, bản chất AI sinh văn bản dựa trên xác suất nên dễ mắc "Ảo giác" (Hallucination), đưa ra số liệu/đoạn code bịa đặt, có thể đánh sập cả hệ thống nếu tin tưởng mù quáng.
+                </div>
+              </div>
+              <div>
+                <label class="fill-label">Đề xuất giải pháp</label>
+                <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6; min-height: 130px;">
+                  Quán triệt tinh thần "99% nỗ lực cá nhân, 1% AI hỗ trợ". Các trường đại học (như UET) cần cập nhật quy chế chi tiết, làm rõ ranh giới giữa việc "dùng AI để debug" và "gian lận sinh mã". Sinh viên phải duy trì tư duy Human-in-the-loop: Con người luôn là chốt chặn cuối cùng kiểm duyệt chất lượng trước khi bấm nút "Submit" hay "Deploy".
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+        <!-- ══════════════════════════════
+             PAGE 3 – PHÒNG HỌP BÁO
+        ══════════════════════════════ -->
+        <div id="page-pressroom" class="page">
+
+          <!-- PRESS HERO -->
+          <div class="hero" style="min-height:260px; background: linear-gradient(rgba(13, 27, 42, 0.4), rgba(13, 27, 42, 0.8)), url('messi.png') center/cover no-repeat;">
+            <!-- Đã xóa lớp phủ sân cỏ màu xanh -->
+            <div class="hero-content" style="padding:3rem;">
+              <div>
+                <div class="hero-badge">Trang Tổng Kết · Reflection</div>
+                <h1 class="hero-title">Phòng Họp Báo</h1>
+                <div class="hero-sub">Cuộc phỏng vấn sau trận đấu cuối mùa</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="conclude-grid">
+
+              <!-- MAIN CONTENT -->
+              <div>
+                <div class="section-label">Phỏng vấn sau trận</div>
+                <h2 class="section-title">Cảm Xúc & Trải Nghiệm</h2>
+
+                <div style="display:flex; flex-direction:column; gap:1.2rem;">
+                  <div>
+                    <label class="fill-label">"Trận đấu" khó khăn nhất trong suốt hành trình Portfolio</label>
+                    <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6;">Thử thách "khoai" nhất với mình là việc thiết lập môi trường hợp tác trực tuyến, cụ thể là việc dùng email sinh viên để kích hoạt IntelliJ IDEA Ultimate và tích hợp tài khoản GitHub vào IDE. Ban đầu, nó giống như việc toàn đội phải học cách vận hành một sơ đồ chiến thuật mới toanh. Tuy nhiên, khi luồng công việc được khơi thông, mọi pha "ban bật" code trong các dự án nhóm (như hệ thống đấu giá biển số) trở nên cực kỳ mượt mà và chuyên nghiệp.</div>
+                  </div>
+
+                  <div>
+                    <label class="fill-label">Kỹ năng MVP — Cầu thủ xuất sắc nhất mùa giải</label>
+                    <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6;">Prompt Engineering (Kỹ thuật Gợi ý) đích thực là "nhạc trưởng" của toàn bộ mùa giải. Việc biết cách đóng vai, cung cấp bối cảnh và định dạng đầu ra đã biến AI từ một công cụ tìm kiếm đơn thuần thành một "tiền vệ kiến tạo" xuất sắc. Nó giúp mình tối ưu hóa từ việc refine các dòng code Java phức tạp đến việc đa dạng hóa từ vựng cho bài tập Speaking Part 1 & 2 và Writing Task 2.</div>
+                  </div>
+
+                  <div>
+                    <label class="fill-label">Kiến thức & kỹ năng quan trọng nhất đã học được</label>
+                    <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6;">
+                      1. <strong>Truy vấn học thuật:</strong> Khả năng tìm kiếm chuyên sâu bằng các toán tử nâng cao, giúp lọc thông tin rác và tìm đến đúng các tài liệu gốc có giá trị.<br>
+                      2. <strong>Tư duy tổ chức:</strong> Xây dựng hệ thống quản lý tệp tin và quy tắc đặt tên chuẩn kỹ thuật, tạo nền tảng vững chắc ("phòng ngự chặt") để dự án không bị vỡ vụn khi scale lên.<br>
+                      3. <strong>Liêm chính AI:</strong> Hiểu rõ ranh giới giữa việc dùng AI để tham khảo ý tưởng và việc đạo văn, từ đó xây dựng nguyên tắc làm việc 99% nỗ lực cá nhân, 1% sự hỗ trợ từ máy móc.
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="fill-label" style="color:var(--navy);">Tầm nhìn mùa giải tới — Cam kết & Định hướng</label>
+                    <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6; border-left: 4px solid var(--navy);">Mình cam kết sẽ vận dụng các công cụ quản lý dự án đã học để tối ưu hóa thời gian biểu, cân bằng nhịp nhàng giữa 4 môn học chuyên ngành tại UET và lịch rèn luyện tiếng Anh các tối thứ 2 (17h30-19h30) và thứ 5 (20h-22h). Về dài hạn, tư duy công nghệ số và kỹ năng hợp tác trực tuyến này sẽ là vũ khí cốt lõi để team của mình tham chiến tại giải FIT CUP 2026, đồng thời tạo ra một bản hồ sơ năng lực sắc bén để tự tin bước vào các ngày hội việc làm (UET Job Fair) trong tương lai.</div>
+                  </div>
+
+                  <div>
+                    <label class="fill-label">Những điều bạn sẽ làm khác đi nếu bắt đầu lại</label>
+                    <div class="info-value filled" style="font-size: 0.88rem; line-height: 1.6;">Nếu được "đá" lại từ đầu, mình sẽ triển khai việc thiết kế kiến trúc Portfolio (sân vận động) song song ngay từ những tuần đầu tiên làm bài tập, thay vì dồn toàn bộ việc xây dựng web vào những phút "bù giờ" cuối kỳ. Việc này sẽ giúp mình có nhiều thời gian hơn để trau chuốt trải nghiệm người dùng (UX) và tạo ra nhiều sản phẩm AI sáng tạo hơn nữa.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SIDEBAR -->
+              <div style="display:flex; flex-direction:column; gap:1.2rem;">
+
+                <div class="sidebar-card">
+                  <h3>Điểm Tự Đánh Giá</h3>
+                  <div class="score-display">
+                    <div class="score-num" style="color: #ffd700;">9.9 / 10</div>
+                    <div class="score-label">MỨC XUẤT SẮC (MỨC 4)</div>
+                  </div>
+                  <div class="info-value filled" style="font-size: 0.82rem; line-height: 1.6;">Mình tự tin đề xuất mức điểm 9.9/10. Portfolio đã hoàn thành vượt trội tất cả các tiêu chí Mức 4: Cấu trúc điều hướng logic, minh chứng kỹ thuật rõ nét (IDE, GitHub) và tích hợp đa phương tiện. Điểm nhấn nằm ở việc thiết kế sáng tạo, cá nhân hóa sâu sắc theo concept bóng đá với triết lý "99% nỗ lực". 0.1 điểm còn lại là khoảng trống để bản thân giữ sự khiêm tốn và tiếp tục phát triển.</div>
+                </div>
+
+                <div class="sidebar-card">
+                  <h3>Kỹ Năng Đã Trang Bị</h3>
+                  <div class="skills-wrap">
+                    <span class="skill-tag">Tổ chức mã nguồn</span>
+                    <span class="skill-tag">Tìm kiếm nâng cao</span>
+                    <span class="skill-tag">Prompt Engineering</span>
+                    <span class="skill-tag">CI/CD & GitHub</span>
+                    <span class="skill-tag">Quản lý thời gian</span>
+                    <span class="skill-tag">Đạo đức AI</span>
+                  </div>
+                </div>
+
+                <div class="sidebar-card">
+                  <h3>Nộp Bài</h3>
+                  <div style="margin-bottom:.8rem;">
+                    <label class="fill-label">Trạng thái Hồ sơ</label>
+                    <div class="info-value filled" style="font-size: 0.85rem; color: var(--green); font-weight: 600; text-align: center;">ĐÃ HOÀN TẤT & SẴN SÀNG</div>
+                  </div>
+                  <div class="checklist">
+                    <div class="check-item">Website điều hướng đa nền tảng</div>
+                    <div class="check-item">Lưu file PDF minh chứng lưu trữ</div>
+                    <div class="check-item">Đính kèm toàn bộ ảnh kỹ thuật số</div>
+                    <div class="check-item">Tuân thủ liêm chính học thuật</div>
+                    <div class="check-item">Vượt mong đợi Rubric Mức 4</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <footer>
+        ⚽ Vũ Trí Cao &nbsp;·&nbsp; <span>25020045</span> &nbsp;·&nbsp; Đại học Công nghệ (UET) &nbsp;·&nbsp; <span>Portfolio Kỹ Thuật Số 2025–2026</span>
+      </footer>
+
+      <script>
+        function showPage(id, el) {
+          document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+          document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+          document.getElementById('page-' + id).classList.add('active');
+          el.classList.add('active');
+          window.scrollTo({top:0, behavior:'smooth'});
+        }
+      </script>
+</body>
+</html> giúp mình khôi phujv lại phòng họp báo
